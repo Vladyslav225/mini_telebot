@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from configure import config
 from GoW_checking_words import check_user_word
-# from GoW_checking_words import last_letter_bot_word
+from GoW_checking_words import last_letter_bot_word
 from GoW_checking_words import input_bot_words
 import time
 
@@ -29,25 +29,29 @@ def answer_info(call):
 # Определение, кто сделает первый ход (Игрок или Бот)
 @bot.message_handler(commands= ['first_move'])
 def who_first_move(message):
-     n = types.ReplyKeyboardMarkup()
-     n.add(types.KeyboardButton('Бот'), types.KeyboardButton('Игрок'))
+     markup_reply = types.ReplyKeyboardMarkup(resize_keyboard=True)
+     button_bot = types.KeyboardButton('Бот')
+     button_gamer = types.KeyboardButton('Игрок')
+
+     markup_reply.add(button_bot, button_gamer)
      
-     n = bot.send_message(message.chat.id, 'Я или Ты?', reply_markup=n)
-     bot.register_next_step_handler(n, choose_first_move)
+     msg = bot.message_handler(message.chat.id, 'Я или Ты?', reply_markup=markup_reply)
+     bot.register_next_step_handler_by_chat_id(msg, choose_first_move)
 
 # Решение определения, кто сделает первый ход (Игрок или Бот)
 def choose_first_move(message):
      if message.text == 'Бот':
           bot_first_move = bot.send_message(message.chat.id, 'Хорошо, я начну первым :)')
-          bot.register_next_step_handler(bot_first_move, first_bot_word(message))
+          # bot.register_next_step_handler(bot_first_move, start_game(message))
+          bot.register_next_step_handler(bot_first_move, bot_word(message))
 
      elif message.text == 'Игрок':
           gamer_first_move = bot.send_message(message.chat.id, 'Начинай :)')
-          bot.register_next_step_handler(gamer_first_move, first_gamer_word)
+          # bot.register_next_step_handler(gamer_first_move, start_game(message))
+          bot.register_next_step_handler(gamer_first_move, gamer_word(message))
+
 
 # ----------------------------------------------------------------------------------
-letter_for_gamer = ''
-input_gamer_word = ''
 
 
 #Приветствие с Игроком
@@ -63,36 +67,35 @@ def welcome_user(message):
 def first_move(message):
      bot.send_message(message.chat.id, 'Давай решим, кто сделает первый ход (/first_move)')
 
-# Первое слово Бота
-def first_bot_word(message):
-     global letter_for_gamer
+# Игра
+# def start_game(message):
+#      for item in range(5):
+#           if message.text == 'Бот':
 
+#                bot.send_message(message.chat.id, 'Подожди, пожалуйста...')
+#                time.sleep(5)
+
+#                bot.send_message(message.chat.id, input_bot_words())
+#                bot.send_message(message.chat.id, last_letter_bot_word())
+
+#           elif message.text == 'Игрок':
+#                message.text
+#                bot.send_message(message.from_user.id, check_user_word())
+
+# for item in range(5):
+def bot_word(message):
+     # if message.text.lower() == '':
      bot.send_message(message.chat.id, 'Подожди, пожалуйста...')
      time.sleep(5)
-     
+
      bot.send_message(message.chat.id, input_bot_words())
-     # bot.send_message(message.chat.id, l)
+# bot.send_message(message.chat.id, last_letter_bot_word())
+     bot.register_next_step_handler(item, gamer_word)
 
-     # start_game(message)
-
-# Первое слово Игрока
-def first_gamer_word(message):
-
-     # message.text
+def gamer_word(message):
+     message.text
      bot.send_message(message.from_user.id, check_user_word())
-
-     # start_game(message)
-
-#Игра
-# def start_game(message):
-#      # for item in range(5):
-#      if first_bot_word:
-#           bot.send_message(message.chat.id, last_letter_bot_word())
-
-#      elif first_gamer_word:
-#           bot.send_message(message.from_user.id, '123')
-
-
+     bot.register_next_step_handler(w_u, bot_word)
 
 
 bot.infinity_polling()

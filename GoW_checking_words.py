@@ -8,7 +8,6 @@ used_bot_words = []
 
 user_word = ''
 bot_word = ''
-# word = ''
 
 
 def check_user_word():
@@ -26,8 +25,8 @@ def check_user_word():
           return ('В твоем слове недостаточно букв')
 
      used_user_words.append(user_word)
-     bot_word = bot_library_words(user_word[-1])
-     return bot_word
+     word = user_word[-1]
+     return word
 
 check_user_word()
 
@@ -35,21 +34,20 @@ check_user_word()
 
 
 def input_bot_words():
+     global bot_word
      bot_word = random.choice(bot_library_words)
-
-     last_index = bot_word[-1]
-     send_word_last_letter = (f'{bot_word} .Говори слово на букву: {last_index}')
      
-     return send_word_last_letter
+     return bot_word
 
-# def last_letter_bot_word():
-#      last_letter = word[-1]
+def last_letter_bot_word():
+     last_letter = bot_word[-1]
 
-#      return (f'Говори слово на букву: {last_letter}')
+     return (f'Говори слово на букву: {last_letter}')
 
 
 # send_last_letterz = 
-input_bot_words()
-# print(bot_word, n)
+send_word = input_bot_words()
+# print(b)
 
-# last_letter_bot_word()
+send_last_index = last_letter_bot_word()
+# print(n)
