@@ -11,7 +11,7 @@ bot_word = ''
 
 
 def check_user_word():
-
+     print(123)
      if user_word == used_user_words:
           return('Ты уже говорил это слово')
 
@@ -28,7 +28,7 @@ def check_user_word():
      word = user_word[-1]
      return word
 
-check_user_word()
+user_word = check_user_word()
 
 
 
