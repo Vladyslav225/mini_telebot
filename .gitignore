@@ -2,3 +2,4 @@ venv/
 configure.py
 requirements.txt
 telegramm_bot_test.py
+test__.py
