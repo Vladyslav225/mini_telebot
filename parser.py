@@ -1,38 +1,47 @@
 import requests
 from bs4 import BeautifulSoup
 
-list_full_href = []
+dict_words = {}
 
-response = requests.get('https://wordsonline.ru')
+url = 'https://wordsonline.ru'
+
+response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 # print(soup)
 
 get_div_alphabet_a = soup.find('div', {'class': 'alphabet'}).find_all('a')
 # print(get_div_alphabet_a)
 
-for item in get_div_alphabet_a:        
+# Get link words
+for item in get_div_alphabet_a:
+    title = item.get('title')
+    print(title)
+
     href = item.get('href')
 
     if '/' in href:
-        full_href = 'https://wordsonline.ru' + href
-        # print(full_href)
+        get_full_url_letter = url + href
+        # print(get_full_url_letter)
 
+# Parsing link words
+    response = requests.get(get_full_url_letter)
+    parsing_url_letter = BeautifulSoup(response.text, 'html.parser')
 
-    response = requests.get(full_href)
-    parsing_links = BeautifulSoup(response.text, 'html.parser')
+# Get words
+    get_div = parsing_url_letter.find_all('div', {'class': 'col-sm-3 col-xs-6'})
+    # print(get_div)
 
-    get_words = parsing_links.find_all('div', {'class': 'col-sm-3 col-xs-6'})
-    # print(list_)
-
-    for i in get_words:
-        get_ = i.find_all('li')
+    for atribute_li_words in get_div:
+        get_atribute_li_words = atribute_li_words.find_all('li')
         # print(get_)
 
-        for n in get_:
-            b = n.find('a').text
-            print(b)
+        for atribute_a in atribute_li_words:
+            get_atribute_a = atribute_a.find_all('a')
+            # print(get_words)
+
+            for text_a in get_atribute_a:
+                get_text_a = text_a.get_text('a')
+                print(get_text_a)
 
 
-
-    
-    
+        
