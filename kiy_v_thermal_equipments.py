@@ -5,6 +5,8 @@ import json
 
 list_categories = []
 
+THERMAL_EQUIPMENT_CATEGORIES_JSON = 'kiy_v_json/thermal_equipment_categories.json'
+
 
 def parser_categories(url):
     response = requests.get(url)
@@ -18,11 +20,11 @@ def parser_categories(url):
                 'Name category': categories.find('a').find('span').text.strip('\n'),
                 'URL category': categories.find('a').get('href'),
                 'Image category': categories.find('a').find('img').get('data-src'),
-
             }
         )
 
-    # print(list_categories)
+    with open(THERMAL_EQUIPMENT_CATEGORIES_JSON, 'w') as file:
+            json.dump(list_categories, file, indent=4, ensure_ascii=False)
 
 
 if __name__ == '__main__':
