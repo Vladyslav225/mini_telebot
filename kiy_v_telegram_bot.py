@@ -1,37 +1,27 @@
-from telebot import TeleBot
-from telebot import types
-from bs4 import BeautifulSoup
-import requests
 import json
 
-import configure
+from aiogram import Bot, Dispatcher, executor, types
+from configure import config
 
-EQUIPMENT_CATEGORIES = 'kiy_v_json/equipment_categories.json'
-EQUIPMENT_PAGE_HTML = 'kiy_v_html/equipment_page.html'
+bot = Bot(config['token'])
+dp = Dispatcher(bot)
 
-bot = TeleBot(configure.config['token'])
+PC_PRODUCTS_JSON = 'kiy_v_json/pc_products.json'
 
-@bot.message_handler(commands=['start'])
-def get_product(message):
-    bot.send_message(message.chat.id, 'Hi, input comman "/start" ')
+# @dp.message_handler(commands='start')
+# async def start(message: types.Message):
+#     await message.reply('hi')
 
-@bot.message_handler(commands=['/categories'])
-def info(message):
-    markup_reply = types.ReplyKeyboardMarkup(resize_keyboard = True)
+@dp.message_handler(commands='all_products')
+async def get_all_products(message: types.Message):
+    with open(PC_PRODUCTS_JSON) as file:
+        products = json.load(file)
 
-    markup_reply.add(types.KeyboardButton('Печі і пароконвектомати'))
-    
-    bot.send_message(message.chat.id, '123', reply_markup=markup_reply)
-    
+        for value in products:
+            information = f"{value['Name product']}\n" \
+                        f"{value['URL product']}\n" \
+                        f"{value['Price product']}"        
 
+            await message.answer(information)
 
-
-
-
-
-
-
-
-
-bot.polling()
-
+executor.start_polling(dp)

@@ -1,5 +1,3 @@
-# # All type equipment
-
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -9,7 +7,7 @@ list_product = []
 
 PC_PRODUCTS_JSON = 'kiy_v_json/pc_products.json'
 
-def response_page(url):
+def parser_product(url):
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -50,4 +48,4 @@ def response_page(url):
 
 
 if __name__ == '__main__':
-    get_response = response_page('https://www.kiy-v.ua/ua/rozstoechni-shafi.html?dir=asc&order=price')
+    get_response = parser_product('https://www.kiy-v.ua/ua/rozstoechni-shafi.html?dir=asc&order=price')
