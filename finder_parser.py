@@ -5,12 +5,6 @@ import requests
 
 from finder_models import Article
 
-list_news = []
-
-# class News(Document):
-#     inforation = StringField(required=True, unique=True)
-#     connect('db_info')
-
 def parser():
     url = 'https://www.obozrevatel.com/search/?q='
     search_url = url + 'авто'
