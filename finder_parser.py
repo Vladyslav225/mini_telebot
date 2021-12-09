@@ -1,13 +1,16 @@
-import json
-
 from bs4 import BeautifulSoup
 import requests
 
-from finder_models import Article
+from finder_models import DataParsing
 
-def parser():
+_dict = {}
+
+def parser(find):
+
+    print('parser')
+
     url = 'https://www.obozrevatel.com/search/?q='
-    search_url = url + 'авто'
+    search_url = url + find
     response = requests.get(search_url).text
 
     with open('index.html', 'w', encoding='utf-8') as file:
@@ -25,23 +28,13 @@ def parser():
         get_text = news.find('a', {'class': 'newsImgRowTime_titleLink'}).text
         get_url = news.find('a', {'class': 'newsImgRowTime_titleLink'}).get('href')
 
-        try:
-            a = Article()
-            a.text = get_text
-            a.url = get_url
-            a.save()
+        _dict['text'] = get_text
+        _dict['url'] = get_url
 
-        except:
-            print('This elemnt is in the database')
+    try:
+        DataParsing(**_dict).save()
 
-get_info = parser()
-# print(get_info)
-# Article(**get_info).save()
+    except:
+        print('This element is in the database')
 
-
-# for n in parsing:
-#     print(n)
-    
-# a = News(inforation = n)
-# print(123)
-# a.save()
+# get_info = parser()
