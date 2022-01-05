@@ -6,8 +6,8 @@ class DataParsing(Document):
 
     print('DataParsing')
     
-    text = StringField(max_lenght=120, unique=True)
-    url = StringField(max_lenght=200, unique=True)
+    text = StringField(max_lenght=120)
+    url = StringField(max_lenght=200)
 
     def __str__(self):
         return self.text

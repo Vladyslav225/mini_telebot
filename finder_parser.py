@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 from finder_models import DataParsing
+# from finder_connector import parsing_answer_save_db
 
 _dict = {}
 
@@ -31,10 +32,6 @@ def parser(find):
         _dict['text'] = get_text
         _dict['url'] = get_url
 
-    try:
+    # parsing_answer_save_db(**_dict)
         DataParsing(**_dict).save()
 
-    except:
-        print('This element is in the database')
-
-# get_info = parser()
