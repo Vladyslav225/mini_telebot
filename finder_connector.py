@@ -17,11 +17,6 @@ def user_response_save_db(id_user, text_search):
     for data in DataUser.objects:
         parser(data.query)
 
-# def parsing_answer_save_db(answer):
-
-#     print('parsing_answer_save_db')
-
-    # parser(answer)
 
 
 
