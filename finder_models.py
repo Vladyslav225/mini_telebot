@@ -19,7 +19,6 @@ class DataUser(Document):
     print('DataUser')
 
     user_chat_id = IntField()
-    # flag_done = BoleanField(default=False)
     query = StringField()
 
     def __str__(self):
